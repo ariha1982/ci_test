@@ -22,6 +22,10 @@ app.get('/', (req, res, next) => {
     res.send(response(status.SUCCESS, "루트 페이지!"));
 })
 
+app.get('/test', (req, res, next) => {
+    res.send(response(status.SUCCESS, "This is test page"));
+})
+
 // error handling
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);
