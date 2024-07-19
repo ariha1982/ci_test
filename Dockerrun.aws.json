@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "jayde/node-project",
+    "Name": "jayde1012/node-project:latest",
     "Update": "true"
   },
   "Ports": [
