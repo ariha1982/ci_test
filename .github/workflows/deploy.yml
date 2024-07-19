@@ -18,14 +18,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/node-app:latest
-
       # 현재 시간 얻기 (Build 시점의 시간 얻기)
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -39,6 +31,9 @@ jobs:
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
 
+      - name: Generate deployment package
+        run: zip -r ${{ steps.current-time.outputs.formattedTime }}.zip . -x "*.git*" node_modules
+
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -49,7 +44,7 @@ jobs:
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}  # version_label은 이전에 배포한 label과 중복되면 안됨!
           use_existing_version_if_available: true
           region: ap-northeast-2
-          deployment_package: Dockerrun.aws.json
+          deployment_package: ${{ steps.current-time.outputs.formattedTime }}.zip
           wait_for_deployment: false  # 바로 Beanstalk으로 넘어갈 수 있도록 함
 
       # 그냥 다 했다고 출력하기
