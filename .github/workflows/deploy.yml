@@ -18,11 +18,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: docker build -t jayde1012/node-app:latest .
-
-      - name: Push Docker image
-        run: docker push jayde1012/node-app:latest
+      - name: Docker build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pumble:latest
 
       # 현재 시간 얻기 (Build 시점의 시간 얻기)
       - name: Get current time
