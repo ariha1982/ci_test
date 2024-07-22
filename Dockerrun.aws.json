@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "jayde1012/node-app:latest",
+    "Name": "jayde1012/pumble:latest",
     "Update": true
   },
   "Ports": [
